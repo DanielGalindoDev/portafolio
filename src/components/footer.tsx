@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { GithubIcon,LinkedinIcon, Mail } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -7,7 +7,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         {/* Texto */}
         <p className="text-center md:text-left">
-          © {new Date().getFullYear()} TuNombre. Hecho con 💜 y Next.js.
+          © {new Date().getFullYear()} Daniel Adrian Galindo Reyes. Hecho con amor y Next.js.
         </p>
 
         {/* Íconos sociales */}
@@ -18,7 +18,7 @@ export function Footer() {
             aria-label="GitHub"
             className="hover:text-white transition-colors"
           >
-            <Github size={20} />
+            <GithubIcon size={25} />
           </Link>
           <Link
             href="https://www.linkedin.com/in/danielgalindoreyes/"
@@ -26,14 +26,14 @@ export function Footer() {
             aria-label="LinkedIn"
             className="hover:text-white transition-colors"
           >
-            <Linkedin size={20} />
+            <LinkedinIcon size={25} />
           </Link>
           <Link
             href="mailto:mseragonf@gmail.com"
             aria-label="Email"
             className="hover:text-white transition-colors"
           >
-            <Mail size={20} />
+            <Mail size={25} />
           </Link>
         </div>
       </div>
