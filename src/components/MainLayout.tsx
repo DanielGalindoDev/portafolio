@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <div className="relative min-h-screen bg-black text-white overflow-hidden">
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
-        <div className="flex-grow mt-10">{children}</div>
+        <div className="flex-grow">{children}</div>
         <Footer />
       </div>
     </div>
