@@ -1,11 +1,6 @@
-import MainLayout from '@/components/MainLayout'
-import {Button, buttonVariants} from '@/components/ui/button'
-export default function Home() {
+import Home from '@/app/(portafolio)/Home/page'
+export default function Homefunction() {
   return (
-  <MainLayout>
-    <div className='bg-blue'>
-
-    </div>
-  </MainLayout>
+    <Home/>
   );
 }
