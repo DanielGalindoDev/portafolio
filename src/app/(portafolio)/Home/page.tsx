@@ -6,11 +6,11 @@ import { ContactCTA } from './components/ContactCTA';
 
 export default function Home() {
   return (
-    <MainLayout>
+    <>
       <HeroSection />
       <ServicesSection />
       <ProjectsSection />
       <ContactCTA />
-    </MainLayout>
+    </>
   );
 }

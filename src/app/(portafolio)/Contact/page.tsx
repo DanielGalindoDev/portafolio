@@ -1,8 +1,7 @@
-import MainLayout from '@/components/MainLayout'
-export default function Home() {
+export default function Contact() {
   return (
-  <MainLayout>
+  <>
     contact
-  </MainLayout>
+  </>
   );
 }

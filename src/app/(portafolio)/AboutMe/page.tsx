@@ -1,8 +1,6 @@
-import MainLayout from '@/components/MainLayout'
-export default function Home() {
-  return (
-  <MainLayout>
-    aboutme
-  </MainLayout>
+export default function AboutMe() {
+  return (<>
+  AboutMe
+  </>
   );
 }

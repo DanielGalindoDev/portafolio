@@ -33,7 +33,8 @@ export const ProjectsSection = () => {
       tags: ["C", "stb_image", "git"],
       image: "/images/project2.jpg",
       type: "development",
-      projectUrl: "https://app-de-gestion.demo"
+      projectUrl: "/Home/ProyectEcualizer",
+      repoUrl: "https://github.com/DanielGalindoDev/Desencriptador-ONE"
     },
     // Proyectos de diseño (sin cambios)
     {
