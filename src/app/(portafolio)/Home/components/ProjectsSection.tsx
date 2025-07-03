@@ -38,7 +38,7 @@ export const ProjectsSection = () => {
       image: "/images/Desarrollos/project2.jpg",
       type: "development",
       projectUrl: "/Home/ProyectEcualizer",
-      repoUrl: "https://github.com/DanielGalindoDev/proyecto-ecualizacion"
+      repoUrl: "https://github.com/DanielGalindoDev/EcualizadorDeImagenes"
     },
     {
       title: "Encriptador ONE",
