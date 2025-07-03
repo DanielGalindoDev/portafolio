@@ -22,9 +22,9 @@ export function Header() {
   }, []);
 
   const navItems = [
-    { name: "Inicio", path: "/" },
-    { name: "Proyectos", path: "/Home#contacto" },
-    { name: "Servicios", path: "/Home#contacto" },
+    { name: "Inicio", path: "/#inicio" },
+    { name: "Proyectos", path: "/#proyectos" },
+    { name: "Servicios", path: "/#servicios" },
     { name: "Sobre mi", path: "/AboutMe" },
   ];
 

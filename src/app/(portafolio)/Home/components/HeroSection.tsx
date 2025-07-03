@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export const HeroSection = () => {
   return (
-    <section className="relative h-[100vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-slate-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden transition-colors duration-500">
+    <section id="inicio" className="relative h-[100vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-slate-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden transition-colors duration-500">
       {/* Fondo con textura sutil */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full opacity-30 dark:opacity-10">
