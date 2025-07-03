@@ -2,9 +2,9 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight} from "lucide-react";
 
 const imagePairs = [
   {

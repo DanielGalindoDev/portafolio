@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button} from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ExternalLink, Github, Image as ImageIcon, ArrowLeft, ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
