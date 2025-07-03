@@ -9,12 +9,15 @@ import {
   Smartphone,
   Database,
   GitBranch,
+  Server,
+  Network,
+  Box
 } from "lucide-react";
 
 const services = [
   {
     icon: <Code className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
-    title: "Desarrollo Web",
+    title: "Desarrollo Web Frontend",
     description: "Aplicaciones modernas optimizadas para rendimiento y SEO.",
     tags: ["React", "Next.js", "Tailwind"],
   },
@@ -22,20 +25,44 @@ const services = [
     icon: <Smartphone className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     title: "Diseño Responsive",
     description: "Interfaces adaptables para todos los dispositivos.",
-    tags: ["Mobile-First", "PWA", "Fluid"],
+    tags: ["Mobile-First", "UI/UX", "Figma"],
   },
   {
     icon: <Cpu className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     title: "Backend",
     description: "APIs robustas y escalables.",
-    tags: ["Node.js", "NestJS", "GraphQL"],
+    tags: ["Node.js","Django","Spring Boot"],
   },
   {
     icon: <Database className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     title: "Bases de Datos",
     description: "Modelado y optimización de datos.",
-    tags: ["PostgreSQL", "MongoDB", "Redis"],
+    tags: ["MySQL", "Oracle","PostgreSQL"],
   },
+  {
+    icon: <Server className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+    title: "SysAdmin",
+    description: "Configuración y mantenimiento de servidores.",
+    tags: ["Linux", "Docker","Kubernetes","AWS"],
+  },
+  {
+    icon: <Network className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+    title: "Redes y Seguridad informática",
+    description: "Implementación de redes seguras y eficientes.",
+    tags: ["CCNA","Cisco"],
+  },
+  {
+    icon: <GitBranch className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+    title: "Control de Versiones",
+    description: "Gestión eficiente del código fuente.",
+    tags: ["Git", "GitHub", "GitLab"],
+  },
+  {
+  icon: <Box className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+  title: "Desarrollo 3D",
+  description: "Modelado, renderizado y animación 3D para aplicaciones y videojuegos.",
+  tags: ["Blender", "Three.js", "Unity", "WebGL"],
+}
 ];
 
 export const ServicesSection = () => {
@@ -65,13 +92,13 @@ export const ServicesSection = () => {
       </div>
 
       <div className="container relative z-10 px-4 mx-auto w-full">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-white mb-4 tracking-tight">
+        <div className=" mb-16">
+          <h2 className="text-center text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-white mb-4 tracking-tight">
             Servicios <span className="text-blue-600 dark:text-blue-400">Especializados</span>
           </h2>
-          <div className="w-24 h-1.5 mx-auto mb-6 bg-blue-500 rounded-full" />
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Soluciones técnicas adaptadas a tus necesidades
+          <div className="text-justify w-24 h-1.5 mx-auto mb-6 bg-blue-500 rounded-full" />
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-6xl mx-auto">
+            Desarrollo soluciones digitales a medida, robustas y fáciles de usar. Combino tecnología de punta con un enfoque práctico para crear sistemas que realmente resuelvan problemas. Mi código es limpio, seguro y mantenible - sin complicaciones innecesarias ni sorpresas. Trabajo contigo para entender tus necesidades y entregar resultados que agreguen valor desde el primer día.
           </p>
         </div>
 

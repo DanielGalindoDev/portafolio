@@ -81,7 +81,7 @@ export const HeroSection = () => {
               className: "border-blue-400 text-blue-600 hover:bg-blue-50 hover:text-blue-700 dark:border-blue-500 dark:text-blue-400 dark:hover:bg-gray-700/50 dark:hover:text-blue-300 transition-all"
             })}
           >
-            Contacto
+            Sobre mi
           </Link>
         </div>
       </div>
