@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import {buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 'use client'
 
-import { FiDownload, FiExternalLink, FiPrinter } from 'react-icons/fi'
+import { FiDownload} from 'react-icons/fi'
 import { useState, useEffect } from 'react'
 
 export default function CVSection() {
