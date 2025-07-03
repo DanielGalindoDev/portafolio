@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Code,
   Cpu,
-  Globe,
   Smartphone,
   Database,
   GitBranch,
