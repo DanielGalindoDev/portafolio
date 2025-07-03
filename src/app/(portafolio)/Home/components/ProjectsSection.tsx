@@ -8,19 +8,6 @@ import { ExternalLink, Github, Image as ImageIcon, ArrowLeft, ArrowRight } from 
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
-type ProjectItem = {
-  title: string
-  description: string
-  tags: string[]
-  image: string
-  type: 'design' | 'development'
-  gallery?: string[]
-  projectUrl?: string
-  repoUrl?: string
-  imageClasses?: string
-  featured?: boolean
-}
-
 const PROJECTS_DATA = [{
       title: "Ecualización de Imágenes",
       description: "Algoritmo de procesamiento de imágenes en C++ con versión paralela (OpenMP)",
