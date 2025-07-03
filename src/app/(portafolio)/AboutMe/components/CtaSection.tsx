@@ -1,44 +1,124 @@
-// components/about/sections/CtaSection.tsx
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { FileText } from 'lucide-react';
+import { FiDownload, FiExternalLink, FiPrinter } from 'react-icons/fi'
+import { useState, useEffect } from 'react'
 
-export default function CtaSection() {
+export default function CVSection() {
+  const [fileSize, setFileSize] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    // Obtener tamaño del archivo
+    fetch('/documents/Daniel_Galindo_CV.pdf')
+      .then(res => {
+        if (!res.ok) throw new Error('Error al cargar el PDF')
+        return res.blob()
+      })
+      .then(blob => {
+        const sizeInMB = (blob.size / (1024 * 1024)).toFixed(1)
+        setFileSize(`${sizeInMB} MB`)
+        setIsLoading(false)
+      })
+      .catch(() => {
+        setError(true)
+        setIsLoading(false)
+      })
+  }, [])
+
+  const handlePrint = () => {
+    window.open('/documents/Daniel_Galindo_CV.pdf', '_blank')?.print()
+  }
+
   return (
-    <div className="text-center pt-6 space-y-4">
-      {/* Versión principal del botón de CV */}
-      <Link
-        href="/cv"
-        className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl"
-      >
-        <FileText className="w-5 h-5 mr-2" />
-        Descargar CV Completo (PDF)
-      </Link>
+    <section className="py-16 px-4 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <div className="max-w-5xl mx-auto space-y-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Currículum Vitae
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400">
+            Desarrollador Full Stack | React Specialist
+          </p>
+        </div>
 
-      {/* Versión alternativa reducida */}
-      <div className="pt-2">
-        <Link
-          href="/cv"
-          className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline text-sm"
-        >
-          <FileText className="w-4 h-4 mr-1" />
-          Ver versión resumida
-        </Link>
-      </div>
+        {/* Visor de PDF con estados */}
+        <div className="w-full h-[80vh] border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden bg-gray-50 dark:bg-gray-800/50 relative">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="animate-pulse text-gray-500 dark:text-gray-400">
+                Cargando CV...
+              </div>
+            </div>
+          )}
 
-      {/* Enlace adicional a LinkedIn o portafolio */}
-      <div className="pt-4">
-        <Link
-          href="https://linkedin.com/in/tu-perfil"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
-        >
-          ¿Prefieres ver mi perfil profesional?
-          <span className="ml-1">→</span>
-        </Link>
+          {error ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+              <div className="text-red-500 mb-4 text-lg">
+                Error al cargar el documento
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                Por favor intenta descargarlo o verlo en otra pestaña
+              </p>
+              <a
+                href="/documents/Daniel_Galindo_CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Abrir CV directamente
+              </a>
+            </div>
+          ) : (
+            <iframe
+              src={`/documents/Daniel_Galindo_CV.pdf#toolbar=0&navpanes=0&view=FitH`}
+              title="Daniel Galindo CV"
+              className={`w-full h-full transition-opacity ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+              onLoad={() => setIsLoading(false)}
+              onError={() => setError(true)}
+            />
+          )}
+        </div>
+
+        {/* Acciones mejoradas */}
+        <div className="flex flex-wrap justify-center gap-3">
+          <a
+            href="/documents/Daniel_Galindo_CV.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all hover:shadow-lg hover:-translate-y-0.5"
+          >
+            <FiExternalLink className="text-lg" />
+            <span>Ver en nueva pestaña</span>
+          </a>
+
+          <button
+            onClick={handlePrint}
+            className="flex items-center gap-2 px-5 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-all hover:shadow-lg hover:-translate-y-0.5 border border-gray-200 dark:border-gray-600"
+          >
+            <FiPrinter className="text-lg" />
+            <span>Imprimir</span>
+          </button>
+
+          <a
+            href="/documents/Daniel_Galindo_CV.pdf"
+            download="Daniel_Galindo_CV.pdf"
+            className="flex items-center gap-2 px-5 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-medium transition-all hover:shadow-lg hover:-translate-y-0.5"
+          >
+            <FiDownload className="text-lg" />
+            <span>Descargar PDF</span>
+            {fileSize && (
+              <span className="text-xs opacity-80 ml-1">({fileSize})</span>
+            )}
+          </a>
+        </div>
+
+        {/* Información adicional */}
+        <div className="text-center text-sm text-gray-500 dark:text-gray-400 space-y-1">
+          <p>Última actualización: {new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}</p>
+          <p>Formato: PDF - Optimizado para impresión</p>
+        </div>
       </div>
-    </div>
-  );
+    </section>
+  )
 }

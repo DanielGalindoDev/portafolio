@@ -23,10 +23,9 @@ export function Header() {
 
   const navItems = [
     { name: "Inicio", path: "/" },
-    { name: "Proyectos", path: "#proyectos" },
-    { name: "Servicios", path: "#servicios" },
-    { name: "Sobre mi", path: "./AboutMe" },
-    { name: "Contacto", path: "#contacto" },
+    { name: "Proyectos", path: "/Home#contacto" },
+    { name: "Servicios", path: "/Home#contacto" },
+    { name: "Sobre mi", path: "/AboutMe" },
   ];
 
   if (!mounted) return null;
