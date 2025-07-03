@@ -84,24 +84,6 @@ export default function CVSection() {
         <div className="flex flex-wrap justify-center gap-3">
           <a
             href="/documents/Daniel_Galindo_CV.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all hover:shadow-lg hover:-translate-y-0.5"
-          >
-            <FiExternalLink className="text-lg" />
-            <span>Ver en nueva pestaña</span>
-          </a>
-
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 px-5 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-all hover:shadow-lg hover:-translate-y-0.5 border border-gray-200 dark:border-gray-600"
-          >
-            <FiPrinter className="text-lg" />
-            <span>Imprimir</span>
-          </button>
-
-          <a
-            href="/documents/Daniel_Galindo_CV.pdf"
             download="Daniel_Galindo_CV.pdf"
             className="flex items-center gap-2 px-5 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-medium transition-all hover:shadow-lg hover:-translate-y-0.5"
           >
