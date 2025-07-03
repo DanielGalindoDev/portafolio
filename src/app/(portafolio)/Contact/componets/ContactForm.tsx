@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Send, Check, X } from "lucide-react"
 import { FormData, FormStatus, ColorPalette } from "./types"
+import { TEXT_CONTENT } from "./constants"
 
 interface ContactFormProps {
   currentColors: ColorPalette
