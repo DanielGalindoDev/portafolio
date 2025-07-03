@@ -84,7 +84,7 @@ export const ServicesSection = () => {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative py-20 bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-500">
+    <section id="servicios" className="min-h-screen flex items-center justify-center relative py-20 bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-500">
       {/* Fondo con textura sutil */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] bg-center opacity-[0.03] dark:opacity-[0.015]"></div>

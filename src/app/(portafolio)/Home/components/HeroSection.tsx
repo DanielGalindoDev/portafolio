@@ -74,7 +74,7 @@ export const HeroSection = () => {
           </Link>
           
           <Link
-            href="#contacto"
+            href="/AboutMe"
             className={buttonVariants({ 
               variant: "outline", 
               size: "lg",

@@ -25,7 +25,7 @@ export function Header() {
     { name: "Inicio", path: "/" },
     { name: "Proyectos", path: "#proyectos" },
     { name: "Servicios", path: "#servicios" },
-    { name: "Habilidades", path: "#habilidades" },
+    { name: "Sobre mi", path: "./AboutMe" },
     { name: "Contacto", path: "#contacto" },
   ];
 
