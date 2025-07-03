@@ -1,12 +1,17 @@
+// next.config.js
 module.exports = {
-  // ... otras configuraciones
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.(glb|gltf)$/,
-      use: {
-        loader: 'file-loader',
-      },
-    });
-    return config;
-  },
+  // Elimina o comenta esta parte:
+  // webpack: (config) => {
+  //   config.module.rules.push({
+  //     test: /\.(glb|gltf)$/,
+  //     use: {
+  //       loader: 'file-loader',
+  //       options: {
+  //         publicPath: '/_next',
+  //         name: 'static/models/[name].[hash].[ext]',
+  //       }
+  //     }
+  //   })
+  //   return config
+  // }
 }
