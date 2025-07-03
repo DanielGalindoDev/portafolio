@@ -6,6 +6,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ExternalLink, Github, Image as ImageIcon, ArrowLeft, ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 type ProjectItem = {
   title: string
@@ -109,9 +110,34 @@ export const ProjectsSection = () => {
     })
   }
 
+  // Clases de botones corregidas para ambos temas
+  const buttonClasses = {
+    primary: cn(
+      'bg-blue-600 text-white hover:bg-blue-700',
+      'dark:bg-blue-700 dark:hover:bg-blue-800',
+      'transition-colors duration-200'
+    ),
+    secondary: cn(
+      'bg-gray-100 text-gray-900 hover:bg-gray-200',
+      'dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600',
+      'border border-gray-300 dark:border-gray-600',
+      'transition-colors duration-200'
+    ),
+    outline: cn(
+      'border border-gray-300 text-gray-700 hover:bg-gray-50',
+      'dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800',
+      'transition-colors duration-200'
+    ),
+    ghost: cn(
+      'hover:bg-gray-100 text-gray-700',
+      'dark:hover:bg-gray-800 dark:text-gray-300',
+      'transition-colors duration-200'
+    )
+  }
+
   return (
     <section id="proyectos" className="py-12 bg-white dark:bg-gray-900">
-      <div className="container px-4 mx-auto max-w-6xl">
+      <div className="container px-4 mx-auto max-w-5xl">
         {/* Carrusel 3D destacado */}
         {featured3DProject && (
           <div className="mb-12">
@@ -119,7 +145,7 @@ export const ProjectsSection = () => {
               Mis Modelos 3D Destacados
             </h2>
             <div 
-              className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 cursor-pointer"
+              className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 cursor-pointer group"
               onClick={() => openGallery(featured3DProject.title, featured3DProject.gallery!, current3DIndex)}
             >
               <div className="relative aspect-video">
@@ -127,33 +153,44 @@ export const ProjectsSection = () => {
                   src={featured3DProject.gallery![current3DIndex]}
                   alt={`Modelado 3D - ${current3DIndex + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   priority
                 />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
                 <div className="flex justify-between items-end">
-                  <div>
+                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-xl font-bold text-white">{featured3DProject.title}</h3>
-                    <p className="text-white/90">{featured3DProject.description}</p>
+                    <p className="text-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {featured3DProject.description}
+                    </p>
                   </div>
-                  <Button variant="secondary" size="sm" className="flex items-center gap-2">
+                  <Button 
+                    className={cn(
+                      buttonClasses.secondary,
+                      'flex items-center gap-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300'
+                    )}
+                  >
                     <ImageIcon className="w-4 h-4" />
-                    Ver Galería
+                    <span>Ver Galería</span>
                   </Button>
                 </div>
               </div>
               <div className="absolute bottom-4 right-4 flex gap-2">
                 {featured3DProject.gallery!.map((_, index) => (
-                  <Button
+                  <button
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation()
                       setCurrent3DIndex(index)
                     }}
                     className={`w-2 h-2 rounded-full transition-all ${
-                      index === current3DIndex ? 'bg-white' : 'bg-white/50'
+                      index === current3DIndex 
+                        ? 'bg-white scale-125' 
+                        : 'bg-white/50 hover:bg-white/75'
                     }`}
+                    aria-label={`Ir a la imagen ${index + 1}`}
                   />
                 ))}
               </div>
@@ -163,9 +200,19 @@ export const ProjectsSection = () => {
 
         {/* Pestañas de proyectos */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 max-w-xs mx-auto mb-8">
-            <TabsTrigger value="development">Desarrollo</TabsTrigger>
-            <TabsTrigger value="design">Diseño</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 max-w-xs mx-auto mb-8 bg-gray-100 dark:bg-gray-800">
+            <TabsTrigger 
+              value="development" 
+              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white dark:data-[state=active]:bg-blue-700 transition-colors"
+            >
+              Desarrollo
+            </TabsTrigger>
+            <TabsTrigger 
+              value="design" 
+              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white dark:data-[state=active]:bg-blue-700 transition-colors"
+            >
+              Diseño
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="development">
@@ -173,14 +220,14 @@ export const ProjectsSection = () => {
               {developmentProjects.map((project, index) => (
                 <div 
                   key={index}
-                  className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow dark:border-gray-800"
+                  className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow dark:border-gray-800 group"
                 >
-                  <div className="relative h-48 bg-gray-100 dark:bg-gray-800">
+                  <div className="relative h-48 bg-gray-100 dark:bg-gray-800 overflow-hidden">
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
-                      className={`object-cover ${project.imageClasses || ''}`}
+                      className={`object-cover ${project.imageClasses || ''} group-hover:scale-105 transition-transform duration-300`}
                     />
                   </div>
                   <div className="p-4">
@@ -192,7 +239,10 @@ export const ProjectsSection = () => {
                     </p>
                     <div className="flex flex-wrap gap-2 mt-3">
                       {project.tags.map((tag, i) => (
-                        <Badge key={i} variant="secondary">
+                        <Badge 
+                          key={i} 
+                          className="bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+                        >
                           {tag}
                         </Badge>
                       ))}
@@ -202,7 +252,11 @@ export const ProjectsSection = () => {
                         <Link
                           href={project.projectUrl}
                           target="_blank"
-                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                          rel="noopener noreferrer"
+                          className={cn(
+                            buttonClasses.outline,
+                            'flex items-center px-4 py-2 text-sm rounded-md'
+                          )}
                         >
                           <ExternalLink className="w-4 h-4 mr-2" />
                           Demo
@@ -212,7 +266,11 @@ export const ProjectsSection = () => {
                         <Link
                           href={project.repoUrl}
                           target="_blank"
-                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                          rel="noopener noreferrer"
+                          className={cn(
+                            buttonClasses.outline,
+                            'flex items-center px-4 py-2 text-sm rounded-md'
+                          )}
                         >
                           <Github className="w-4 h-4 mr-2" />
                           Código
@@ -230,19 +288,24 @@ export const ProjectsSection = () => {
               {designProjects.map((project, index) => (
                 <div 
                   key={index}
-                  className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow dark:border-gray-800"
+                  className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow dark:border-gray-800 group"
                 >
                   <div className="relative h-48 bg-gray-100 dark:bg-gray-800">
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {project.gallery && (
                       <Button
                         onClick={() => openGallery(project.title, project.gallery!)}
-                        className="absolute top-2 right-2 bg-white/90 hover:bg-white text-gray-900 rounded-full p-2"
+                        className={cn(
+                          buttonClasses.secondary,
+                          'absolute top-2 right-2 rounded-full p-2 h-10 w-10',
+                          'opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                        )}
+                        aria-label="Abrir galería"
                       >
                         <ImageIcon className="w-4 h-4" />
                       </Button>
@@ -257,7 +320,10 @@ export const ProjectsSection = () => {
                     </p>
                     <div className="flex flex-wrap gap-2 mt-3">
                       {project.tags.map((tag, i) => (
-                        <Badge key={i} variant="outline">
+                        <Badge 
+                          key={i} 
+                          className="bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+                        >
                           {tag}
                         </Badge>
                       ))}
@@ -267,7 +333,11 @@ export const ProjectsSection = () => {
                         <Link
                           href={project.projectUrl}
                           target="_blank"
-                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                          rel="noopener noreferrer"
+                          className={cn(
+                            buttonClasses.outline,
+                            'flex items-center px-4 py-2 text-sm rounded-md'
+                          )}
                         >
                           <ExternalLink className="w-4 h-4 mr-2" />
                           Ver
@@ -277,7 +347,11 @@ export const ProjectsSection = () => {
                         <Link
                           href={project.repoUrl}
                           target="_blank"
-                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                          rel="noopener noreferrer"
+                          className={cn(
+                            buttonClasses.outline,
+                            'flex items-center px-4 py-2 text-sm rounded-md'
+                          )}
                         >
                           <Github className="w-4 h-4 mr-2" />
                           Detalles
@@ -297,9 +371,17 @@ export const ProjectsSection = () => {
             <div className="relative max-w-4xl w-full">
               <button 
                 onClick={() => setCurrentGallery(null)}
-                className="absolute -top-10 right-0 text-white hover:text-gray-300"
+                className={cn(
+                  buttonClasses.ghost,
+                  'absolute -top-10 right-0 text-white hover:text-white',
+                  'p-2 rounded-full'
+                )}
+                aria-label="Cerrar galería"
               >
-                Cerrar
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               </button>
               
               <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
@@ -308,12 +390,13 @@ export const ProjectsSection = () => {
                   alt={`${currentGallery.projectTitle} - ${currentGallery.currentIndex + 1}`}
                   fill
                   className="object-contain"
+                  priority
                 />
               </div>
               
               <div className="flex justify-between mt-4">
                 <Button 
-                  variant="outline" 
+                  className={"bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"}
                   onClick={() => setCurrentGallery(prev => ({
                     ...prev!,
                     currentIndex: (prev!.currentIndex - 1 + prev!.images.length) % prev!.images.length
@@ -328,7 +411,7 @@ export const ProjectsSection = () => {
                 </span>
                 
                 <Button 
-                  variant="outline" 
+                  className={"bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"}
                   onClick={() => setCurrentGallery(prev => ({
                     ...prev!,
                     currentIndex: (prev!.currentIndex + 1) % prev!.images.length
