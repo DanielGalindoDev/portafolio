@@ -25,11 +25,6 @@ export default function CVSection() {
         setIsLoading(false)
       })
   }, [])
-
-  const handlePrint = () => {
-    window.open('/documents/Daniel_Galindo_CV.pdf', '_blank')?.print()
-  }
-
   return (
     <section className="py-16 px-4 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-8">
