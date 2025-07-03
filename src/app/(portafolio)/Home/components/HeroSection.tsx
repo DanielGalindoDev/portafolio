@@ -15,7 +15,6 @@ export const HeroSection = () => {
         </div>
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-blue-100/30 dark:to-gray-800/30"></div>
       </div>
-
       {/* Efecto de partículas */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(60)].map((_, i) => (
@@ -56,7 +55,7 @@ export const HeroSection = () => {
         </h1>
         
         <h2 className="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-300 max-w-2xl">
-          Desarrollador Full Stack especializado en crear soluciones digitales impactantes
+          Desarrollador Frontend y SysAdmin, enfocado en crear soluciones digitales funcionales, accesibles y bien estructuradas.
         </h2>
         
         {/* Botones */}
