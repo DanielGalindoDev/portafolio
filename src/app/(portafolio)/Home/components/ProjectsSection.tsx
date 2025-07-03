@@ -1,237 +1,347 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ExternalLink } from "lucide-react";
+'use client'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ExternalLink, Github, Image as ImageIcon, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 type ProjectItem = {
-  title: string;
-  description: string;
-  tags: string[];
-  image: string;
-  type: "design" | "development";
-  gallery?: string[];
-  projectUrl?: string; // Nuevo campo para URL de proyectos de desarrollo
-  repoUrl?: string;   // Opcional: URL del repositorio
-};
+  title: string
+  description: string
+  tags: string[]
+  image: string
+  type: 'design' | 'development'
+  gallery?: string[]
+  projectUrl?: string
+  repoUrl?: string
+  imageClasses?: string
+  featured?: boolean
+}
 
 export const ProjectsSection = () => {
+  const [activeTab, setActiveTab] = useState('development')
+  const [currentGallery, setCurrentGallery] = useState<{
+    projectTitle: string
+    images: string[]
+    currentIndex: number
+  } | null>(null)
+  const [current3DIndex, setCurrent3DIndex] = useState(0)
+
   const projects: ProjectItem[] = [
-    // Proyectos de desarrollo (ahora con enlaces)
+    {
+      title: "Ecualización de Imágenes",
+      description: "Algoritmo de procesamiento de imágenes en C++ con versión paralela (OpenMP)",
+      tags: ["C++", "OpenMP", "STB Image"],
+      image: "/images/Desarrollos/project2.jpg",
+      type: "development",
+      projectUrl: "/Home/ProyectEcualizer",
+      repoUrl: "https://github.com/DanielGalindoDev/proyecto-ecualizacion"
+    },
     {
       title: "Encriptador ONE",
-      description: "Encriptado y desencriptado de texto",
-      tags: ["HTML", "CSS", "JS"],
-      image: "/images/project1.png",
+      description: "Aplicación web para encriptar/desencriptar texto usando algoritmos",
+      tags: ["HTML", "CSS", "JavaScript"],
+      image: "/images/Desarrollos/project1.png",
       type: "development",
       projectUrl: "https://danielgalindodev.github.io/Desencriptador-ONE/",
       repoUrl: "https://github.com/DanielGalindoDev/Desencriptador-ONE"
     },
     {
-      title: "Ecualización de Imágenes",
-      description: "Aplicación logica, trabajo en paralelo y secuencial",
-      tags: ["C", "stb_image", "git"],
-      image: "/images/project2.jpg",
+      title: "Conversor ONE",
+      description: "Conversor de divisas utilizando Java con POO, para el programa Oracle Next Education",
+      tags: ["Java", "Oracle","POO"],
+      image: "/images/Desarrollos/project3.png",
       type: "development",
-      projectUrl: "/Home/ProyectEcualizer",
-      repoUrl: "https://github.com/DanielGalindoDev/Desencriptador-ONE"
+      repoUrl: "https://github.com/DanielGalindoDev/ConversorONE",
+      imageClasses:'dark:filter dark:brightness-0 dark:invert'
     },
-    // Proyectos de diseño (sin cambios)
     {
-      title: "Diseño Web Corporativo",
-      description: "Landing page moderna con enfoque en experiencia de usuario",
+      title: "Modelos 3D",
+      description: "Modelado y renderizado profesional de objetos 3D con texturas avanzadas",
+      tags: ["Blender", "Substance", "Cycles"],
+      image: "/images/Disenos/Models/1.png",
+      type: "design",
+      gallery: Array.from({ length: 12 }, (_, i) => `/images/Disenos/Models/${i+1}.png`),
+      featured: true
+    },
+    {
+      title: "Diseño Web Corporativo SIDECU",
+      description: "Proyecto de gestión de personal y equipo de cómputo",
       tags: ["Figma", "UI/UX", "Prototipado"],
-      image: "/images/design1.jpg",
+      repoUrl: "https://github.com/DanielGalindoDev/SIDECU",
+      projectUrl: "https://www.figma.com/design/2WhnPI4R89XAVAe1pWfu6v/SIDECU-Prototipo?node-id=0-1&t=X7dTEjW3F3vkrHaU-0",
+      image: "/images/Disenos/SIDECU/1.png",
       type: "design",
-      gallery: [
-        "/images/design1-1.jpg",
-        "/images/design1-2.jpg",
-        "/images/design1-3.jpg"
-      ]
+      gallery: Array.from({ length: 12 }, (_, i) => `/images/Disenos/SIDECU/${i+1}.png`)
     },
     {
-      title: "Modelado 3D para Producto",
-      description: "Diseño tridimensional para presentación de producto",
-      tags: ["Blender", "Substance", "Render"],
-      image: "/images/design2.jpg",
+      title: "Diseño Web PUMAGUA",
+      description: "Sistema de gestión hidráulica para servicio social",
+      tags: ["Figma", "UI/UX", "Prototipado"],
+      image: "/images/Disenos/PUMAGUA/1.png",
       type: "design",
-      gallery: [
-        "/images/design2-1.jpg",
-        "/images/design2-2.jpg",
-        "/images/design2-3.jpg",
-        "/images/design2-4.jpg"
-      ]
+      gallery: Array.from({ length: 10 }, (_, i) => `/images/Disenos/PUMAGUA/${i+1}.png`)
     }
-  ];
+  ]
 
-  const designProjects = projects.filter(p => p.type === "design");
-  const developmentProjects = projects.filter(p => p.type === "development");
+  // Efecto para carrusel automático 3D
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const featuredProject = projects.find(p => p.featured)
+      if (featuredProject?.gallery) {
+        setCurrent3DIndex(prev => (prev + 1) % featuredProject.gallery!.length)
+      }
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [projects])
+
+  const featured3DProject = projects.find(p => p.featured)
+  const designProjects = projects.filter(p => p.type === 'design' && !p.featured)
+  const developmentProjects = projects.filter(p => p.type === 'development')
+
+  const openGallery = (projectTitle: string, images: string[], index = 0) => {
+    setCurrentGallery({
+      projectTitle,
+      images,
+      currentIndex: index
+    })
+  }
 
   return (
-    <section id="proyectos" className="py-20 bg-white dark:bg-slate-950">
-      <div className="container px-6 mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12 text-slate-800 dark:text-white">
-          Mi Trabajo
-        </h2>
-        
-        <Tabs defaultValue="development" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 max-w-xs mx-auto mb-12">
-            <TabsTrigger value="development">Desarrollos</TabsTrigger>
-            <TabsTrigger value="design">Diseños</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="development">
-            <div className="grid md:grid-cols-2 gap-8">
-              {developmentProjects.map((project, index) => (
-                <DevelopmentProjectCard key={`dev-${index}`} project={project} />
-              ))}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="design">
-            <div className="grid md:grid-cols-2 gap-8">
-              {designProjects.map((project, index) => (
-                <ProjectCard key={`design-${index}`} project={project} isDesign />
-              ))}
-            </div>
-            
-            <div className="mt-16">
-              <h3 className="text-2xl font-bold mb-8 text-center text-slate-800 dark:text-white">
-                Galería de Diseños 3D
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={`3d-${i}`} className="aspect-square relative group overflow-hidden rounded-lg">
-                    <Image
-                      src={`/images/3d-design-${i+1}.jpg`}
-                      alt={`Diseño 3D ${i+1}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <button className="bg-white/90 text-slate-900 px-4 py-2 rounded-full text-sm font-medium">
-                        Ver detalles
-                      </button>
-                    </div>
+    <section id="proyectos" className="py-12 bg-white dark:bg-gray-900">
+      <div className="container px-4 mx-auto max-w-6xl">
+        {/* Carrusel 3D destacado */}
+        {featured3DProject && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+              Mis Modelos 3D Destacados
+            </h2>
+            <div 
+              className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 cursor-pointer"
+              onClick={() => openGallery(featured3DProject.title, featured3DProject.gallery!, current3DIndex)}
+            >
+              <div className="relative aspect-video">
+                <Image
+                  src={featured3DProject.gallery![current3DIndex]}
+                  alt={`Modelado 3D - ${current3DIndex + 1}`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{featured3DProject.title}</h3>
+                    <p className="text-white/90">{featured3DProject.description}</p>
                   </div>
+                  <Button variant="secondary" size="sm" className="flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4" />
+                    Ver Galería
+                  </Button>
+                </div>
+              </div>
+              <div className="absolute bottom-4 right-4 flex gap-2">
+                {featured3DProject.gallery!.map((_, index) => (
+                  <Button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setCurrent3DIndex(index)
+                    }}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === current3DIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
+                  />
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Pestañas de proyectos */}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-2 max-w-xs mx-auto mb-8">
+            <TabsTrigger value="development">Desarrollo</TabsTrigger>
+            <TabsTrigger value="design">Diseño</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="development">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {developmentProjects.map((project, index) => (
+                <div 
+                  key={index}
+                  className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow dark:border-gray-800"
+                >
+                  <div className="relative h-48 bg-gray-100 dark:bg-gray-800">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className={`object-cover ${project.imageClasses || ''}`}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-medium text-lg text-gray-900 dark:text-white">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {project.tags.map((tag, i) => (
+                        <Badge key={i} variant="secondary">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      {project.projectUrl && (
+                        <Link
+                          href={project.projectUrl}
+                          target="_blank"
+                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Demo
+                        </Link>
+                      )}
+                      {project.repoUrl && (
+                        <Link
+                          href={project.repoUrl}
+                          target="_blank"
+                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                        >
+                          <Github className="w-4 h-4 mr-2" />
+                          Código
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="design">
+            <div className="grid md:grid-cols-2 gap-6">
+              {designProjects.map((project, index) => (
+                <div 
+                  key={index}
+                  className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow dark:border-gray-800"
+                >
+                  <div className="relative h-48 bg-gray-100 dark:bg-gray-800">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                    />
+                    {project.gallery && (
+                      <Button
+                        onClick={() => openGallery(project.title, project.gallery!)}
+                        className="absolute top-2 right-2 bg-white/90 hover:bg-white text-gray-900 rounded-full p-2"
+                      >
+                        <ImageIcon className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-medium text-lg text-gray-900 dark:text-white">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {project.tags.map((tag, i) => (
+                        <Badge key={i} variant="outline">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      {project.projectUrl && (
+                        <Link
+                          href={project.projectUrl}
+                          target="_blank"
+                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Ver
+                        </Link>
+                      )}
+                      {project.repoUrl && (
+                        <Link
+                          href={project.repoUrl}
+                          target="_blank"
+                          className={buttonVariants({ variant: "outline", size: "sm" })}
+                        >
+                          <Github className="w-4 h-4 mr-2" />
+                          Detalles
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
-        
-        <div className="text-center mt-12">
-          <Link
-            href="https://github.com/DanielGalindoDev"
-            className={buttonVariants({ variant: "outline", size: "lg" })}
-          >
-            Explorar todos los proyectos
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-};
 
-// Componente específico para proyectos de desarrollo con enlaces
-const DevelopmentProjectCard = ({ project }: { project: ProjectItem }) => {
-  return (
-    <div className="group relative overflow-hidden rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300">
-      <div className="relative h-64">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-      </div>
-      
-      <div className="absolute bottom-0 left-0 p-6 w-full">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-blue-200 mb-4">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {project.tags.map((tag, i) => (
-            <span 
-              key={i} 
-              className="px-3 py-1 text-xs rounded-full bg-blue-500/20 text-blue-200"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        
-        {/* Enlaces del proyecto */}
-        <div className="flex gap-3 mt-3">
-          {project.projectUrl && (
-            <a
-              href={project.projectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm flex items-center text-blue-300 hover:text-white transition-colors"
-            >
-              <ExternalLink className="w-4 h-4 mr-1" />
-              Ver proyecto
-            </a>
-          )}
-          {project.repoUrl && (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm flex items-center text-blue-300 hover:text-white transition-colors"
-            >
-              <ExternalLink className="w-4 h-4 mr-1" />
-              Código fuente
-            </a>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Componente original para diseños (sin cambios)
-const ProjectCard = ({ project, isDesign = false }: { project: ProjectItem, isDesign?: boolean }) => {
-  return (
-    <div className="group relative overflow-hidden rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300">
-      <div className="relative h-64">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-        
-        {isDesign && project.gallery && (
-          <div className="absolute top-4 right-4 bg-white/90 text-slate-900 px-3 py-1 rounded-full text-xs font-medium flex items-center">
-            <span className="mr-1">📷</span> {project.gallery.length} imágenes
+        {/* Modal de Galería */}
+        {currentGallery && (
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+            <div className="relative max-w-4xl w-full">
+              <button 
+                onClick={() => setCurrentGallery(null)}
+                className="absolute -top-10 right-0 text-white hover:text-gray-300"
+              >
+                Cerrar
+              </button>
+              
+              <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+                <Image
+                  src={currentGallery.images[currentGallery.currentIndex]}
+                  alt={`${currentGallery.projectTitle} - ${currentGallery.currentIndex + 1}`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              
+              <div className="flex justify-between mt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setCurrentGallery(prev => ({
+                    ...prev!,
+                    currentIndex: (prev!.currentIndex - 1 + prev!.images.length) % prev!.images.length
+                  }))}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Anterior
+                </Button>
+                
+                <span className="text-sm text-white self-center">
+                  {currentGallery.currentIndex + 1} / {currentGallery.images.length}
+                </span>
+                
+                <Button 
+                  variant="outline" 
+                  onClick={() => setCurrentGallery(prev => ({
+                    ...prev!,
+                    currentIndex: (prev!.currentIndex + 1) % prev!.images.length
+                  }))}
+                >
+                  Siguiente
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
           </div>
         )}
       </div>
-      
-      <div className="absolute bottom-0 left-0 p-6 w-full">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-purple-200 mb-4">{project.description}</p>
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
-            <span 
-              key={i} 
-              className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-200"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-      
-      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-        <button className="bg-white text-slate-900 px-6 py-3 rounded-full font-medium flex items-center">
-          Ver galería
-          <span className="ml-2">→</span>
-        </button>
-      </div>
-    </div>
-  );
-};
+    </section>
+  )
+}
