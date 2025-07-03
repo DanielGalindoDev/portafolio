@@ -21,17 +21,7 @@ type ProjectItem = {
   featured?: boolean
 }
 
-export const ProjectsSection = () => {
-  const [activeTab, setActiveTab] = useState('development')
-  const [currentGallery, setCurrentGallery] = useState<{
-    projectTitle: string
-    images: string[]
-    currentIndex: number
-  } | null>(null)
-  const [current3DIndex, setCurrent3DIndex] = useState(0)
-
-  const projects: ProjectItem[] = [
-    {
+const PROJECTS_DATA = [{
       title: "Ecualización de Imágenes",
       description: "Algoritmo de procesamiento de imágenes en C++ con versión paralela (OpenMP)",
       tags: ["C++", "OpenMP", "STB Image"],
@@ -85,22 +75,31 @@ export const ProjectsSection = () => {
       type: "design",
       gallery: Array.from({ length: 10 }, (_, i) => `/images/Disenos/PUMAGUA/${i+1}.png`)
     }
-  ]
+  ];
 
-  // Efecto para carrusel automático 3D
+export const ProjectsSection = () => {
+  const [activeTab, setActiveTab] = useState('development')
+  const [currentGallery, setCurrentGallery] = useState<{
+    projectTitle: string
+    images: string[]
+    currentIndex: number
+  } | null>(null)
+  const [current3DIndex, setCurrent3DIndex] = useState(0)
+  
   useEffect(() => {
+    // Usa directamente PROJECTS_DATA
     const interval = setInterval(() => {
-      const featuredProject = projects.find(p => p.featured)
+      const featuredProject = PROJECTS_DATA.find(p => p.featured);
       if (featuredProject?.gallery) {
         setCurrent3DIndex(prev => (prev + 1) % featuredProject.gallery!.length)
       }
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [projects])
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []); // <- Sin dependencias necesarias
 
-  const featured3DProject = projects.find(p => p.featured)
-  const designProjects = projects.filter(p => p.type === 'design' && !p.featured)
-  const developmentProjects = projects.filter(p => p.type === 'development')
+  const featured3DProject =  PROJECTS_DATA.find(p => p.featured)
+  const designProjects =  PROJECTS_DATA.filter(p => p.type === 'design' && !p.featured)
+  const developmentProjects =  PROJECTS_DATA.filter(p => p.type === 'development')
 
   const openGallery = (projectTitle: string, images: string[], index = 0) => {
     setCurrentGallery({
