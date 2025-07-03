@@ -5,8 +5,11 @@ import { Toaster } from 'sonner'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Tu Nombre - Portafolio',
-  description: 'Portafolio profesional de [Tu Nombre], mostrando proyectos de desarrollo y diseño.',
+  title: 'Daniel Galindo - Portafolio',
+  description: 'Portafolio profesional de Daniel Adrian Galindo Reyes, mostrando proyectos de desarrollo y diseño.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({

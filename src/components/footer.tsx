@@ -84,7 +84,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link 
-                    href="#" 
+                    href="/AboutMe" 
                     className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                   >
                     <FileText className="w-4 h-4" />

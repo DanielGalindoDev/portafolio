@@ -38,7 +38,7 @@ export default function ProfileSection() {
 
         {/* Resumen profesional */}
         <p className="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
-          Estudiante de 9° semestre de Ingeniería en Computación en la UNAM. Apasionado por el desarrollo frontend con React y Next.js, con experiencia real en proyectos educativos, documentación técnica, despliegue y mantenimiento de sistemas. Certificado en redes (CCNA) y metodologías ágiles como Scrum.
+          Mi nombre es Daniel Adrian Galindo Reyes, soy estudiante de 9° semestre de Ingeniería en Computación en la Facultad de ingenieria (UNAM). Apasionado por el desarrollo frontend con React y Next.js, con experiencia real en proyectos educativos, documentación técnica, despliegue y mantenimiento de sistemas. Con conocimiento en redes (CCNA) y metodologías ágiles como Scrum.
         </p>
 
         {/* Información expandible */}
