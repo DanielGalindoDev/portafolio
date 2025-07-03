@@ -18,8 +18,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className="min-h-screen bg-background antialiased">
         <ThemeProvider 
-          attribute="class" 
-          defaultTheme="system" 
+          attribute="class"  
           enableSystem
           disableTransitionOnChange // Recomendado para evitar flashes
         >
