@@ -9,6 +9,43 @@ import { cn } from "@/lib/utils"
 import { ArrowRight, Mail, MessageSquare, Send, Check, X } from "lucide-react"
 import { toast } from "sonner"
 
+// Constantes para el texto
+const TEXT_CONTENT = {
+  mainTitle: "¿Listo para colaborar?",
+  mainDescription: "Hablemos sobre tu proyecto. Estoy disponible para freelance y oportunidades interesantes.",
+  contactButton: "Contactarme",
+  emailButton: "Email directo",
+  formTitle: "Envíame un mensaje",
+  nameLabel: "Nombre",
+  emailLabel: "Email",
+  messageLabel: "Mensaje",
+  sendButton: "Enviar mensaje",
+  sendingButton: "Enviando...",
+  sentButton: "Enviado",
+  errorButton: "Error",
+  cancelButton: "Cancelar",
+  successMessage: "Mensaje enviado con éxito",
+  successDescription: "Te responderé lo antes posible.",
+  errorMessage: "Error al enviar",
+  errorDescription: "Por favor intenta nuevamente más tarde."
+}
+
+// Configuración de partículas
+const PARTICLE_SETTINGS = {
+  count: {
+    mobile: 30,
+    desktop: 60
+  },
+  size: {
+    min: 1,
+    max: 3
+  },
+  speed: 0.5,
+  connectionDistance: 100,
+  lineWidth: 0.5
+}
+
+// Tipos
 type FormData = {
   name: string
   email: string
@@ -30,12 +67,12 @@ class Particle {
     this.ctx = ctx
     this.x = Math.random() * ctx.canvas.width
     this.y = Math.random() * ctx.canvas.height
-    this.size = Math.random() * 2 + 1 // Partículas más pequeñas
-    this.speedX = Math.random() * 1 - 0.5
-    this.speedY = Math.random() * 1 - 0.5
+    this.size = Math.random() * (PARTICLE_SETTINGS.size.max - PARTICLE_SETTINGS.size.min) + PARTICLE_SETTINGS.size.min
+    this.speedX = Math.random() * PARTICLE_SETTINGS.speed - (PARTICLE_SETTINGS.speed / 2)
+    this.speedY = Math.random() * PARTICLE_SETTINGS.speed - (PARTICLE_SETTINGS.speed / 2)
     this.color = theme === 'dark' 
-      ? `rgba(220, 215, 247, ${Math.random() * 0.4})` // Lavanda suave para oscuro
-      : `rgba(100, 116, 139, ${Math.random() * 0.4})` // Gris azulado para claro
+      ? `rgba(200, 200, 255, ${Math.random() * 0.4})`
+      : `rgba(80, 90, 120, ${Math.random() * 0.4})`
   }
 
   update() {
@@ -65,30 +102,53 @@ export const ContactCTA = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
 
-  // Nueva paleta de colores más sofisticada
+  // Paleta de colores
   const colors = {
     light: {
-      primary: 'from-slate-100 to-slate-200', // Fondo claro muy suave
-      text: 'text-slate-800',
-      button: 'bg-slate-800 text-white hover:bg-slate-700',
-      secondaryButton: 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200',
-      formBg: 'bg-white',
-      formText: 'text-slate-800',
-      accent: 'text-slate-600'
+      primary: 'from-gray-50 to-gray-100',
+      text: 'text-gray-800',
+      button: {
+        primary: 'bg-gray-800 text-white hover:bg-gray-700',
+        secondary: 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200',
+        outline: 'border-gray-300 text-gray-700 hover:bg-gray-100'
+      },
+      form: {
+        bg: 'bg-white',
+        text: 'text-gray-800',
+        input: {
+          text: 'text-gray-900',
+          bg: 'bg-white',
+          border: 'border-gray-300',
+          placeholder: 'placeholder-gray-500'
+        }
+      },
+      accent: 'text-gray-600'
     },
     dark: {
-      primary: 'from-slate-900 to-slate-800', // Fondo oscuro elegante
-      text: 'text-slate-100',
-      button: 'bg-slate-700 text-white hover:bg-slate-600',
-      secondaryButton: 'bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700',
-      formBg: 'bg-slate-800',
-      formText: 'text-slate-100',
-      accent: 'text-slate-300'
+      primary: 'from-gray-900 to-gray-800',
+      text: 'text-gray-100',
+      button: {
+        primary: 'bg-gray-700 text-white hover:bg-gray-600',
+        secondary: 'bg-gray-800 text-gray-200 hover:bg-gray-700 border border-gray-700',
+        outline: 'border-gray-600 text-gray-200 hover:bg-gray-700'
+      },
+      form: {
+        bg: 'bg-gray-800',
+        text: 'text-gray-100',
+        input: {
+          text: 'text-gray-100',
+          bg: 'bg-gray-700',
+          border: 'border-gray-600',
+          placeholder: 'placeholder-gray-400'
+        }
+      },
+      accent: 'text-gray-300'
     }
   }
 
   const currentColors = theme === 'dark' ? colors.dark : colors.light
 
+  // Efecto de partículas
   useEffect(() => {
     if (!canvasRef.current) return
 
@@ -104,7 +164,7 @@ export const ContactCTA = () => {
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    const particleCount = window.innerWidth < 768 ? 40 : 80 // Más partículas pero más sutiles
+    const particleCount = window.innerWidth < 768 ? PARTICLE_SETTINGS.count.mobile : PARTICLE_SETTINGS.count.desktop
     const particles: Particle[] = Array.from({ length: particleCount }, () => new Particle(ctx, theme || 'light'))
 
     let animationId: number
@@ -112,18 +172,18 @@ export const ContactCTA = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       
-      // Dibujar conexiones primero (para que queden detrás)
+      // Dibujar conexiones
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
           const distance = Math.sqrt(dx * dx + dy * dy)
           
-          if (distance < 120) { // Conexiones más amplias
+          if (distance < PARTICLE_SETTINGS.connectionDistance) {
             ctx.strokeStyle = theme === 'dark' 
-              ? `rgba(220, 215, 247, ${0.3 - distance/400})` 
-              : `rgba(100, 116, 139, ${0.3 - distance/400})`
-            ctx.lineWidth = 0.3 // Líneas más finas
+              ? `rgba(200, 200, 255, ${0.3 - distance/400})` 
+              : `rgba(80, 90, 120, ${0.3 - distance/400})`
+            ctx.lineWidth = PARTICLE_SETTINGS.lineWidth
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
@@ -165,8 +225,8 @@ export const ContactCTA = () => {
       }
       
       setFormStatus('success')
-      toast.success("Mensaje enviado con éxito", {
-        description: "Te responderé lo antes posible.",
+      toast.success(TEXT_CONTENT.successMessage, {
+        description: TEXT_CONTENT.successDescription,
         duration: 5000,
       })
       
@@ -177,8 +237,8 @@ export const ContactCTA = () => {
       }, 2000)
     } catch (error) {
       setFormStatus('error')
-      toast.error("Error al enviar", {
-        description: error instanceof Error ? error.message : "Intenta nuevamente más tarde.",
+      toast.error(TEXT_CONTENT.errorMessage, {
+        description: error instanceof Error ? error.message : TEXT_CONTENT.errorDescription,
         duration: 5000,
       })
     }
@@ -194,12 +254,12 @@ export const ContactCTA = () => {
     >
       <canvas 
         ref={canvasRef} 
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-70"
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-50"
       />
       
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-20 w-32 h-32 bg-indigo-300 rounded-full mix-blend-overlay filter blur-xl"></div>
-        <div className="absolute bottom-10 right-20 w-40 h-40 bg-slate-400 rounded-full mix-blend-overlay filter blur-xl"></div>
+        <div className="absolute bottom-10 right-20 w-40 h-40 bg-gray-400 rounded-full mix-blend-overlay filter blur-xl"></div>
       </div>
 
       <div className="container px-6 mx-auto text-center relative z-10">
@@ -209,54 +269,59 @@ export const ContactCTA = () => {
               "text-3xl md:text-4xl font-bold mb-6",
               currentColors.text
             )}>
-              ¿Listo para colaborar?
+              {TEXT_CONTENT.mainTitle}
             </h2>
             <p className={cn(
               "text-lg md:text-xl mb-8",
               currentColors.accent
             )}>
-              Hablemos sobre tu proyecto. Estoy disponible para freelance y oportunidades interesantes.
+              {TEXT_CONTENT.mainDescription}
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button
-                onClick={() => setIsFormOpen(true)}
-                className={cn(
-                  currentColors.button,
-                  "group transition-all duration-300 hover:shadow-lg hover:scale-[1.02]",
-                  "flex items-center gap-2 px-6 py-3 text-lg"
-                )}
-              >
-                <MessageSquare className="mr-2 h-5 w-5" />
-                Contactar
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-              
-              <a
-                href="mailto:mseragonf@gmail.com"
-                className={cn(
-                  currentColors.secondaryButton,
-                  "group transition-all duration-300 hover:shadow-lg hover:scale-[1.02]",
-                  "flex items-center gap-2 px-6 py-3 text-lg rounded-md"
-                )}
-              >
-                <Mail className="mr-2 h-5 w-5" />
-                Email directo
-              </a>
+            {/* Botones principales reorganizados */}
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <div className="flex flex-col items-center gap-4">
+                <Button
+                  onClick={() => setIsFormOpen(true)}
+                  className={cn(
+                    currentColors.button.primary,
+                    "group transition-all duration-300 hover:shadow-lg",
+                    "flex items-center gap-2 px-8 py-4 text-lg w-full sm:w-auto"
+                  )}
+                >
+                  <MessageSquare className="h-5 w-5" />
+                  {TEXT_CONTENT.contactButton}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+                
+                <span className="text-sm text-gray-500 dark:text-gray-400">o</span>
+                
+                <a
+                  href="mailto:mseragonf@gmail.com"
+                  className={cn(
+                    currentColors.button.secondary,
+                    "group transition-all duration-300 hover:shadow-lg",
+                    "flex items-center gap-2 px-8 py-4 text-lg rounded-md w-full sm:w-auto"
+                  )}
+                >
+                  <Mail className="h-5 w-5" />
+                  {TEXT_CONTENT.emailButton}
+                </a>
+              </div>
             </div>
           </div>
         ) : (
           <div className={cn(
             "max-w-2xl mx-auto p-8 rounded-xl shadow-lg backdrop-blur-sm bg-opacity-90",
-            currentColors.formBg,
+            currentColors.form.bg,
             "border",
-            theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
+            theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
           )}>
             <h3 className={cn(
               "text-2xl font-bold mb-6",
-              currentColors.formText
+              currentColors.form.text
             )}>
-              Envíame un mensaje
+              {TEXT_CONTENT.formTitle}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4 text-left">
@@ -265,10 +330,10 @@ export const ContactCTA = () => {
                   htmlFor="name" 
                   className={cn(
                     "block text-sm font-medium mb-1",
-                    theme === 'dark' ? "text-slate-300" : "text-slate-600"
+                    theme === 'dark' ? "text-gray-300" : "text-gray-600"
                   )}
                 >
-                  Nombre
+                  {TEXT_CONTENT.nameLabel}
                 </label>
                 <Input
                   id="name"
@@ -277,11 +342,14 @@ export const ContactCTA = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   className={cn(
-                    "dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:placeholder-slate-400",
-                    "focus-visible:ring-slate-500 focus-visible:ring-2"
+                    currentColors.form.input.text,
+                    currentColors.form.input.bg,
+                    `border ${currentColors.form.input.border}`,
+                    currentColors.form.input.placeholder,
+                    "focus-visible:ring-gray-500 focus-visible:ring-2"
                   )}
                   disabled={formStatus === 'submitting'}
-                  placeholder="Tu nombre"
+                  placeholder={TEXT_CONTENT.nameLabel}
                 />
               </div>
               
@@ -290,10 +358,10 @@ export const ContactCTA = () => {
                   htmlFor="email" 
                   className={cn(
                     "block text-sm font-medium mb-1",
-                    theme === 'dark' ? "text-slate-300" : "text-slate-600"
+                    theme === 'dark' ? "text-gray-300" : "text-gray-600"
                   )}
                 >
-                  Email
+                  {TEXT_CONTENT.emailLabel}
                 </label>
                 <Input
                   id="email"
@@ -302,11 +370,14 @@ export const ContactCTA = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   className={cn(
-                    "dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:placeholder-slate-400",
-                    "focus-visible:ring-slate-500 focus-visible:ring-2"
+                    currentColors.form.input.text,
+                    currentColors.form.input.bg,
+                    `border ${currentColors.form.input.border}`,
+                    currentColors.form.input.placeholder,
+                    "focus-visible:ring-gray-500 focus-visible:ring-2"
                   )}
                   disabled={formStatus === 'submitting'}
-                  placeholder="tu@email.com"
+                  placeholder="ejemplo@email.com"
                 />
               </div>
               
@@ -315,10 +386,10 @@ export const ContactCTA = () => {
                   htmlFor="message" 
                   className={cn(
                     "block text-sm font-medium mb-1",
-                    theme === 'dark' ? "text-slate-300" : "text-slate-600"
+                    theme === 'dark' ? "text-gray-300" : "text-gray-600"
                   )}
                 >
-                  Mensaje
+                  {TEXT_CONTENT.messageLabel}
                 </label>
                 <Textarea
                   id="message"
@@ -327,15 +398,18 @@ export const ContactCTA = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   className={cn(
-                    "dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:placeholder-slate-400",
-                    "focus-visible:ring-slate-500 focus-visible:ring-2"
+                    currentColors.form.input.text,
+                    currentColors.form.input.bg,
+                    `border ${currentColors.form.input.border}`,
+                    currentColors.form.input.placeholder,
+                    "focus-visible:ring-gray-500 focus-visible:ring-2"
                   )}
                   disabled={formStatus === 'submitting'}
                   placeholder="Cuéntame sobre tu proyecto..."
                 />
               </div>
               
-              <div className="flex justify-end gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row justify-between gap-3 pt-6">
                 <Button
                   type="button"
                   variant="outline"
@@ -344,18 +418,19 @@ export const ContactCTA = () => {
                     setFormStatus('idle')
                   }}
                   className={cn(
-                    "dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700",
-                    "hover:bg-slate-100"
+                    currentColors.button.outline,
+                    "w-full sm:w-auto"
                   )}
                   disabled={formStatus === 'submitting'}
                 >
-                  Cancelar
+                  {TEXT_CONTENT.cancelButton}
                 </Button>
+                
                 <Button
                   type="submit"
                   className={cn(
-                    "bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600",
-                    "flex items-center gap-2 transition-all"
+                    currentColors.button.primary,
+                    "flex items-center gap-2 transition-all w-full sm:w-auto"
                   )}
                   disabled={formStatus === 'submitting'}
                 >
@@ -365,22 +440,22 @@ export const ContactCTA = () => {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Enviando...
+                      {TEXT_CONTENT.sendingButton}
                     </>
                   ) : formStatus === 'success' ? (
                     <>
                       <Check className="h-4 w-4" />
-                      Enviado
+                      {TEXT_CONTENT.sentButton}
                     </>
                   ) : formStatus === 'error' ? (
                     <>
                       <X className="h-4 w-4" />
-                      Error
+                      {TEXT_CONTENT.errorButton}
                     </>
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Enviar mensaje
+                      {TEXT_CONTENT.sendButton}
                     </>
                   )}
                 </Button>
