@@ -4,10 +4,10 @@ import { Footer } from "@/components/footer";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="relative min-h-screen bg-background text-white overflow-hidden">
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
-        <div className="flex-grow px-4 py-8 mt-10">{children}</div>
+        <div className="flex-grow">{children}</div>
         <Footer />
       </div>
     </div>
