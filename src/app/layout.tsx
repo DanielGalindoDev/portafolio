@@ -25,7 +25,7 @@ export default function RootLayout({
           attribute="class"  
           enableSystem
           disableTransitionOnChange // Recomendado para evitar flashes
-          defaultTheme="system" // Cambia a "light" o "dark" si prefieres un tema por defecto
+          defaultTheme="light" // Cambia a "light" o "dark" si prefieres un tema por defecto
         >
           <MainLayout>
             <Toaster 

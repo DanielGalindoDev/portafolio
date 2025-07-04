@@ -139,7 +139,7 @@ export function Header() {
                   {isOpen ? (
                     <X className="w-4 h-4 transition-all duration-300" />
                   ) : (
-                    <Menu className="w-4 h-4 transition-all duration-300" />
+                    <Menu className="w-4 h-4 transition-all duration-300 b " />
                   )}
                 </button>
               </motion.div>
@@ -149,6 +149,8 @@ export function Header() {
             <AnimatePresence>
               {isOpen && (
                 <motion.div
+
+                  className="bg-gray-100/90 dark:bg-gray-800/90 w-full absolute top-16 left-0 right-0 z-50 backdrop-blur-sm overflow-hidden"
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ 
                     height: "auto", 
@@ -166,7 +168,6 @@ export function Header() {
                       opacity: { duration: 0.1 }
                     }
                   }}
-                  className="md:hidden space-y-2 overflow-hidden"
                 >
                   {navItems.map((item, index) => (
                     <motion.div
@@ -184,7 +185,7 @@ export function Header() {
                       <Link
                         href={item.path}
                         onClick={() => setIsOpen(false)}
-                        className="block py-3 px-4 rounded-lg text-sm text-gray-700/90 dark:text-gray-300/90 hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all duration-300 font-medium"
+                        className="block py-3 px-4 rounded-lg text-sm text-gray-700/90 dark:text-gray-300/90 hover:bg-gray-300/60 dark:hover:bg-gray-900/60 transition-all duration-300 font-medium"
                       >
                         {item.name}
                       </Link>
