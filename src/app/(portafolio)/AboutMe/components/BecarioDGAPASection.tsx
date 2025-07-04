@@ -10,24 +10,24 @@ export default function BecarioDGAPASection() {
       titulo: "Manual de instalación de Ubuntu",
       año: "2023",
       descripcion: "Guía paso a paso para instalar y configurar Ubuntu como sistema base.",
-      archivo: "/manuales/Manual instalación de Ubuntu.pdf",
-      portada: "/manuales/Manual instalación de Ubuntu.png"
+      archivo: "/manuales/Ubuntu.pdf",
+      portada: "/manuales/Ubuntu.png"
     },
     {
       id: 2,
       titulo: "Manual de instalación de Apache",
       año: "2023",
       descripcion: "Configuración de servidor web Apache en entornos Linux.",
-      archivo: "/manuales/Manual de instalacion de Apache.pdf",
-      portada: "/manuales/Manual de instalacion de Apache.png"
+      archivo: "/manuales/Apache_compressed.pdf",
+      portada: "/manuales/Apache_compressed.png"
     },
     {
       id: 3,
       titulo: "Manual de NextCloud",
       año: "2024",
       descripcion: "Instrucciones detalladas para desplegar una nube privada con NextCloud.",
-      archivo: "/manuales/Manual de NextCloud.pdf",
-      portada: "/manuales/Manual de NextCloud.png"
+      archivo: "/manuales/NextCloud.pdf",
+      portada: "/manuales/NextCloud.png"
     }
   ]
 
